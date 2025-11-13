@@ -1,6 +1,6 @@
 # Weka ML Classifiers 
-Author: HBF  
-Date: 2022-07-04
+
+
 
 ## What's about?
 
@@ -19,15 +19,4 @@ The linear regression test example uses the same house data as in lab0 ec-regres
 4. ec.ml.car contains examples of using Weka's classifiers (KNN, NB, and SVM) for teaching assistance evaluation data.  Check TA_ReadMe.md for more details.
 
 
-## What to do?
-
-1. Read WekaManual.pdf for the arff data file format. We will use arff as standard data format with Weka API programming.
- 
-2. Try to run the test programs in ec.weka.cls, ec.weka.data, and check the output results, i.e. Run As Java Application. 
-
-3. For example, run LinearRegressionTest.java as Java Application. It first computes and generates the linear regression model and saves as file model/house_regression.bin, then it load the model from model file and does the prediction computing.
-
-4. For programs in ec.ml.cars, first run create_bayes_model.java, which will generate a NB model and save it at model/car_bayes.bin, secondly ran use_bayes_model.java, which will read in model/car_bayes.bin and do testing/predicting for specified input data. Do the same to knn, and svm. 
-
-5. For programs in ec.ml.tae, first run create_bayes_model.jar, which will generate a NB model and save it at model/tae_bayes.bin, secondly ran use_bayes_model.jar, which will read in model/tae_bayes.bin and do testing/predicting for specified input data. Do the same for knn and svm. 
 
