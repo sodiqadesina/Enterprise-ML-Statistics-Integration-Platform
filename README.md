@@ -155,6 +155,50 @@ Together they transform a traditional enterprise statistics engine into a servic
   </properties>
 </persistence-unit>
 ```
+
+
+⚠️ Important Setup Note
+
+- 1 Keep the Project Directory Structure Intact
+  This platform relies on relative paths across modules (ml-weka, stats-app, stats-client).
+  Do not rename or move the project root folder — keep it in the same structure:
+  C:\enterprise\workspace\ec-git-projects\a3.
+
+  If you move it, Maven builds and WildFly deployments may fail to locate the Weka models, ARFF files, or generated binaries.
+
+- 2 Set System Environment Variables for Required Tools
+  To ensure Weka, Java, and WildFly commands work globally:
+
+  Add their bin directories to your Windows System PATH.
+
+  Example setup:
+  
+  JAVA_HOME = C:\Program Files\Java\jdk-17
+  WEKA_HOME = C:\Program Files\Weka-3-8
+  WILDFLY_HOME = C:\wildfly-18.0.1.Final
+  MAVEN_HOME = C:\apache-maven-3.9.9
+  
+  
+  Then append these to your system Path:
+  
+  %JAVA_HOME%\bin;
+  %WEKA_HOME%\;
+  %WILDFLY_HOME%\bin;
+  %MAVEN_HOME%\bin;
+  
+  
+  Restart your terminal afterward to apply changes.
+
+- 3 Verify Installations
+  Run these to confirm everything is accessible:
+  
+  java -version
+  mvn -v
+  weka --help
+  %WILDFLY_HOME%\bin\standalone.bat --version
+
+----
+
 ### 🧪 Build & Run Instructions
 
 1 Build all modules
@@ -173,6 +217,102 @@ http://localhost:8080/stats-rs/rest/mean     # REST endpoint
 cd ../stats-client
 java -cp target/stats-client.jar ec.weka.ModelFileGenerate
 java -cp target/stats-client.jar ec.weka.ModelDBPredict
+
+5 MySQL setup (once)
+
+```bash
+1 Create DB + user
+
+  CREATE DATABASE ec_platform DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  CREATE USER 'ec_user'@'%' IDENTIFIED BY 'StrongPassword!123';
+  GRANT ALL PRIVILEGES ON ec_platform.* TO 'ec_user'@'%';
+  FLUSH PRIVILEGES;
+
+
+2 (Optional) Verify connectivity from your machine:
+
+mysql -h <MYSQL_HOST> -P 3306 -u ec_user -p ec_platform -e "SELECT 1;"
+
+```
+
+6 WildFly: add MySQL driver + datasource
+
+- Do this inside your WildFly install dir. Replace X.Y.Z with your MySQL Connector/J version (e.g., 8.3.0) and WILDFLY_HOME with your path.
+
+7 Install MySQL JDBC driver as a module
+
+```bash
+mkdir -p %WILDFLY_HOME%\modules\system\layers\base\com\mysql\main
+copy mysql-connector-j-X.Y.Z.jar %WILDFLY_HOME%\modules\system\layers\base\com\mysql\main\
+```
+
+8 Create %WILDFLY_HOME%\modules\system\layers\base\com\mysql\main\module.xml:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="urn:jboss:module:1.9" name="com.mysql">
+  <resources>
+    <resource-root path="mysql-connector-j-X.Y.Z.jar"/>
+  </resources>
+  <dependencies>
+    <module name="javax.api"/>
+    <module name="javax.transaction.api"/>
+  </dependencies>
+</module>
+
+
+9 Start WildFly (standalone)
+
+```bash
+%WILDFLY_HOME%\bin\standalone.bat
+```
+
+10 Add the JDBC driver & datasource via CLI (new terminal):
+
+```bash
+%WILDFLY_HOME%\bin\jboss-cli.bat --connect
+```
+Register the driver
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql,driver-class-name=com.mysql.cj.jdbc.Driver)
+
+Add the datasource expected by persistence.xml
+data-source add \
+  --name=MySqlDS \
+  --jndi-name=java:/MySqlDS \
+  --driver-name=mysql \
+  --connection-url=jdbc:mysql://<MYSQL_HOST>:3306/ec_platform?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC \
+  --user-name=ec_user \
+  --password=StrongPassword!123 \
+  --min-pool-size=5 \
+  --max-pool-size=20 \
+  --valid-connection-checker-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker \
+  --exception-sorter-class-name=org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter
+
+Test the datasource
+/subsystem=datasources/data-source=MySqlDS:test-connection-in-pool
+
+Confirm JPA picks it up
+
+- The persistence.xml uses:
+
+```bash
+<jta-data-source>java:/MySqlDS</jta-data-source>
+<property name="hibernate.hbm2ddl.auto" value="update"/>
+```
+
+- So on first deploy, Hibernate will auto-create/update tables (ecuser, ecmodel, etc.) in ec_platform. Check logs for Hibernate: create table… lines, or verify in MySQL:
+
+  SHOW TABLES FROM ec_platform;
+  SELECT * FROM ecmodel LIMIT 5;
+
+Secure secrets (recommended)
+
+- Prefer env vars + CLI expressions rather than plain passwords:
+
+  /subsystem=datasources/data-source=MySqlDS:write-attribute(name=password,value="${VAULT_DB_PASSWORD:StrongPassword!123}")
+
+
+Or use WildFly Elytron credential store for production.
+
 
 ### 🧾 Validation Summary
 
