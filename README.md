@@ -7,7 +7,10 @@
 
 ## 📘 Overview
 
+This is a comprehensive Java EE platform that unifies enterprise computing with machine learning. It integrates EJBs, JMS, SOAP, and REST services with Weka-based regression models for predictive analytics. Deployed on WildFly with JPA persistence and MySQL, it delivers end-to-end intelligent data processing and web service interaction.
+
 This project integrates **machine-learning analytics** with a **distributed enterprise statistics platform**.  
+
 It demonstrates how Weka-based regression models can be trained, stored, and served through standard enterprise middleware — including **EJBs**, **SOAP/REST web services**, and **JPA persistence** — within a modular WildFly deployment.
 
 ---
