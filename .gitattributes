@@ -1,0 +1,13 @@
+* text=auto 
+*.java text diff=java 
+*.xml text 
+*.md text 
+*.sh text eol=lf 
+*.bat text eol=crlf 
+*.jar binary 
+*.war binary 
+*.ear binary 
+*.png binary 
+*.jpg binary 
+*.bin binary 
+*.arff text 

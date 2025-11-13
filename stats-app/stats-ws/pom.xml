@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ec.asgmt</groupId>
+    <artifactId>stats-ws</artifactId>
+    <packaging>war</packaging>
+    <version>0.2.0</version>
+    <name>stats-ws Soap-WS</name>
+    <parent>
+        <groupId>ec.asgmt</groupId>
+        <artifactId>stats-app</artifactId>
+        <version>0.2.0</version>
+    </parent>
+    
+<dependencies>
+    <dependency>
+        <groupId>org.jboss.spec.javax.ejb</groupId>
+        <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.spec.javax.servlet</groupId>
+        <artifactId>jboss-servlet-api_4.0_spec</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>stats-ejb</artifactId>
+        <version>${project.version}</version>
+        <type>ejb</type>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>javax.jws</groupId>
+        <artifactId>jsr181-api</artifactId>
+        <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.spec.javax.xml.ws</groupId>
+        <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
+    </dependency>
+</dependencies>
+
+</project>

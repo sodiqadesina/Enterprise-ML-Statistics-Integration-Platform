@@ -1,0 +1,46 @@
+
+C:\enterprise\workspace\a3>rem batch test 
+
+C:\enterprise\workspace\a3>echo A3 batch test 
+A3 batch test
+
+C:\enterprise\workspace\a3>echo 
+
+C:\enterprise\workspace\a3>echo CD 
+CD
+
+C:\enterprise\workspace\a3>start "mysql" cmd /k mysql_start 
+
+C:\enterprise\workspace\a3>sleep 5 
+
+C:\enterprise\workspace\a3>start "wildfly" cmd /k standalone -c standalone-full.xml 
+
+C:\enterprise\workspace\a3>sleep 10 
+
+C:\enterprise\workspace\a3>cd stats-app 
+
+C:\enterprise\workspace\a3\stats-app>call mvn clean install -q 
+Count: 1.0
+Min: 10.0
+Max: 10.0
+Mean: 10.0
+STD: 0.0
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Statistics Summary</title></head>
+<body><h1>Statistics Summary Information</h1>
+<p>Count: 1.0</p>
+<p>Min: 10.0</p>
+<p>Max: 10.0</p>
+<p>Mean: 10.0</p>
+<p>Standard Deviation: 0.0</p>
+</body></html>
+{"count":"1"}{"max":"10.0"}{"mean":"10.0"}RESTEASY003210: Could not find resource for full path: http://localhost:8080/stats-rs/rest/statsModel saved as binary and JSON.
+Model saved as binary and JSON.
+Testing completed. Results saved to test_result.txt
+Prediction completed. Results saved to result.txt
+Prediction completed. Results saved to result.txt
+Deleted model: weka-lr
+Inserted model: weka-lr
+Model loaded successfully from the database.
+Prediction result: 225173.25033806165
+<html><head><title>Error</title></head><body>Invalid input parameters</body></html>END

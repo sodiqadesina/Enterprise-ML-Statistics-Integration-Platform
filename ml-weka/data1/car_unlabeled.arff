@@ -1,0 +1,20 @@
+@relation car
+
+@attribute buying {vhigh,high,med,low}
+@attribute maint {vhigh,high,med,low}
+@attribute doors {2,3,4,5more}
+@attribute persons {2,4,more}
+@attribute lug_boot {small,med,big}
+@attribute safety {low,med,high}
+@attribute class {unacc,acc,good,vgood}
+
+@data
+vhigh,vhigh,2,2,small,low,?
+vhigh,med,4,4,big,high,?
+med,low,4,more,big,med,?
+med,low,4,more,big,high,?
+med,low,4,more,small,med,?
+med,low,4,more,small,high,?
+med,low,4,more,med,low,?
+low,vhigh,5more,more,big,high,?
+low,high,2,2,small,low,?

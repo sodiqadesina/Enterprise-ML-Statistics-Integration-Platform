@@ -1,0 +1,11 @@
+@relation tae
+
+@attribute Whether_of_not_the_TA_is_a_native_English_speaker {1,2}
+@attribute Course_instructor numeric
+@attribute Course numeric
+@attribute Summer_or_regular_semester {1,2}
+@attribute Class_size numeric
+@attribute Class_attribute {1,2,3}
+
+@data
+1,6,10,2,55,3

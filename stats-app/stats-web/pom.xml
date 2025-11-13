@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>ec.asgmt</groupId>
+        <artifactId>stats-app</artifactId>
+        <version>0.2.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>stats-web</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+	    <dependency>
+		    <groupId>nz.ac.waikato.cms.weka</groupId>
+		    <artifactId>weka-stable</artifactId>
+		    <version>3.8.0</version>
+		    <scope>compile</scope>
+		</dependency>
+			    
+	    <dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>1.15</version> 
+		</dependency>
+	    <dependency>
+	            <groupId>org.jboss.spec.javax.ejb</groupId>
+	            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+	            <scope>provided</scope>
+	    </dependency>
+      <dependency>
+            <groupId>org.jboss.spec.javax.servlet</groupId>
+            <artifactId>jboss-servlet-api_4.0_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ec.asgmt</groupId>
+            <artifactId>stats-ejb</artifactId>
+            <version>0.2.0</version>
+        </dependency> 
+          	<dependency>
+    <groupId>ec.asgmt</groupId>
+    <artifactId>stats-ws</artifactId>
+    <version>0.2.0</version>
+    <type>war</type> <!-- Add this line to specify it is a WAR dependency -->
+    <scope>provided</scope>
+</dependency>
+
+        <dependency>
+        <groupId>org.jboss.spec.javax.jms</groupId>
+        <artifactId>jboss-jms-api_2.0_spec</artifactId>
+        <scope>provided</scope>
+	    </dependency>
+	    
+	    <dependency>
+		    <groupId>javax.jws</groupId>
+		    <artifactId>jsr181-api</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.jboss.spec.javax.xml.ws</groupId>
+		    <artifactId>jboss-jaxws-api_2.3_spec</artifactId>
+		    <scope>provided</scope>
+		</dependency>
+	    
+    </dependencies>
+</project>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://stats.ec/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="StatsWSImplService" targetNamespace="http://stats.ec/">
+  <wsdl:message name="getMean">
+  </wsdl:message>
+  <wsdl:message name="getCount">
+  </wsdl:message>
+  <wsdl:message name="getCountResponse">
+    <wsdl:part name="return" type="xsd:double">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMaxResponse">
+    <wsdl:part name="return" type="xsd:double">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMeanResponse">
+    <wsdl:part name="return" type="xsd:double">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMinResponse">
+    <wsdl:part name="return" type="xsd:double">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMin">
+  </wsdl:message>
+  <wsdl:message name="getSTDResponse">
+    <wsdl:part name="return" type="xsd:double">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSTD">
+  </wsdl:message>
+  <wsdl:message name="getMax">
+  </wsdl:message>
+  <wsdl:portType name="StatsWS">
+    <wsdl:operation name="getMean">
+      <wsdl:input message="tns:getMean" name="getMean">
+    </wsdl:input>
+      <wsdl:output message="tns:getMeanResponse" name="getMeanResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMin">
+      <wsdl:input message="tns:getMin" name="getMin">
+    </wsdl:input>
+      <wsdl:output message="tns:getMinResponse" name="getMinResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCount">
+      <wsdl:input message="tns:getCount" name="getCount">
+    </wsdl:input>
+      <wsdl:output message="tns:getCountResponse" name="getCountResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSTD">
+      <wsdl:input message="tns:getSTD" name="getSTD">
+    </wsdl:input>
+      <wsdl:output message="tns:getSTDResponse" name="getSTDResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMax">
+      <wsdl:input message="tns:getMax" name="getMax">
+    </wsdl:input>
+      <wsdl:output message="tns:getMaxResponse" name="getMaxResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StatsWSImplServiceSoapBinding" type="tns:StatsWS">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getMean">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getMean">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMeanResponse">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMin">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getMin">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMinResponse">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCount">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getCount">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCountResponse">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSTD">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getSTD">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSTDResponse">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMax">
+      <soap:operation soapAction="" style="rpc"/>
+      <wsdl:input name="getMax">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMaxResponse">
+        <soap:body namespace="http://stats.ec/" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StatsWSImplService">
+    <wsdl:port binding="tns:StatsWSImplServiceSoapBinding" name="StatsWSImplPort">
+      <soap:address location="http://localhost:8080/stats-ws/StatsWSImpl"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
