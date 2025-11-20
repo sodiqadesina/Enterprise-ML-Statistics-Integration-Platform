@@ -7,11 +7,15 @@
 
 ## 📘 Overview
 
-This is a comprehensive Java EE platform that unifies enterprise computing with machine learning. It integrates EJBs, JMS, SOAP, and REST services with Weka-based regression models for predictive analytics. Deployed on WildFly with JPA persistence and MySQL, it delivers end-to-end intelligent data processing and web service interaction.
+The Enterprise ML–Statistics Integration Platform is a full Java EE system that brings together enterprise computing, statistical analysis, and machine learning into a unified, production-style environment. Its purpose is to demonstrate how real organizations build, deploy, and operationalize predictive models and statistical services across multiple interconnected components.
 
-This project delivers a full statistical analysis and ranking system that reads raw student grade data, calculates key measures such as frequency distributions, weighted averages, deviations, and probability-based performance scores, and then generates a clear and explainable ranked output. It is designed to follow a real-world analytics workflow by combining data from multiple sources, applying consistent statistical methods, and producing results that are easy to interpret and ready to support decision making. 
+The platform begins by exposing core statistical operations such as min, max, mean, count, and standard deviation through both REST and SOAP web services. These services are backed by Enterprise JavaBeans that encapsulate the business logic, allowing external clients, browsers, and other applications to request analytics through stable interfaces. This mirrors how enterprise systems offer standardized and reusable data services internally and externally.
 
-It demonstrates how Weka-based regression models can be trained, stored, and served through standard enterprise middleware — including **EJBs**, **SOAP/REST web services**, and **JPA persistence** — within a modular WildFly deployment.
+On the machine learning side, the platform uses Weka’s linear regression capabilities to train predictive models from structured datasets. The model is generated programmatically, evaluated for accuracy, and exported in both binary and JSON formats. This dual representation ensures that the model can be inspected by humans while still being efficiently loaded by software. The trained model is then stored inside a MySQL database as a persistent asset, enabling long-term reuse, versioning, and integration with other enterprise components.
+
+Once stored, the model becomes part of the prediction workflow. A dedicated stateless session bean loads the model from the database, reconstructs it in memory, and performs predictions based on incoming data. A web interface allows users to enter feature values and receive real-time model predictions, demonstrating a complete end-to-end flow from user input to machine-generated output. This closely reflects how predictive services are embedded into enterprise applications such as pricing engines, risk calculators, and recommendation systems.
+
+The combination of EJBs, JPA persistence, REST and SOAP endpoints, servlets, and Weka-based machine learning demonstrates how statistical and predictive analytics can be operationalized inside a modular WildFly deployment. The system shows how data, models, and services can work together reliably, consistently, and at scale, which is the core goal of modern enterprise analytics platforms.
 
 ---
 
