@@ -61,15 +61,27 @@ Each module is independently deployable and communicates through standardized en
 
 ## 🤖 Machine Learning Pipeline
 
-###  Model Generation
+###  Model Training & Evaluation (Weka API)
 
 ![Linear Regression Generation](images/lr-model-genetation-by-weka-api.PNG)
 
 **Explanation:**  
-The ML module trains a **Linear Regression** model (`weka_lr`) on the `house.arff` dataset.  
-Results (correlation = 0.897, RMSE ≈ 3276) confirm successful training and evaluation.  
-Both binary (`.bin`) and JSON versions are produced for portability.
 
+The platform begins with automatic model training using the Weka Java API:
+
+  - The system loads the dataset (house.arff)
+  
+  - Builds a Linear Regression model (weka_lr)
+  
+  - Evaluates the model (Correlation ≈ 0.897, RMSE ≈ 3276)
+
+  - Saves two artifacts:
+
+      - A binary model (weka_regression.bin) for fast EJB deserialization
+      
+      - A JSON descriptor for transparency and reproducibility
+
+This proves the ML workflow is working entirely in Java with no manual steps, ensuring the model can be deployed programmatically.
 ---
 
 ###  Model Persistence
@@ -77,58 +89,118 @@ Both binary (`.bin`) and JSON versions are produced for portability.
 ![Model in Database](images/lr-model-in-db.PNG)
 
 **Explanation:**  
-The serialized model is inserted as a BLOB in MySQL’s `ecmodel` table through the DAO layer (`StatsDBInsert`).  
-This establishes persistent ML asset storage accessible to all enterprise modules.
+
+After training, the model is serialized and stored in MySQL using the StatsDBInsert client:
+
+  - Stored as a BLOB inside the ecmodel table
+
+  - Metadata includes: model name, class, timestamp
+
+  - Enables persistent model management like a real production ML system
+
+This ensures the application server can load ML models on demand, even after restarts, deployments, or scaling.
 
 ---
 
-###  EJB Integration
+###  Enterprise Java Integration (EJB Prediction Engine)
 
 ![LR Session Bean](images/lr-session-bean-component.PNG)
 
 **Explanation:**  
-`LRStateless` EJB retrieves the stored model, reconstructs the Weka classifier, and performs predictions using `classifyInstance()`.  
-Predicted price ≈ 225,173 CAD, matching the standalone ML result — verifying model consistency across layers.
+
+The LRStateless EJB forms the core prediction engine:
+
+  - Retrieves the serialized Weka model from the database
+
+  - Reconstructs the model in memory
+
+  - Accepts feature vectors from the UI or service layers
+
+  - Calls classifyInstance() to compute the prediction
+
+  - Returns the exact same result as the offline Weka test run (e.g., Predicted Price ≈ 225,173 CAD)
+
+This proves the ML model executes correctly inside the application server, not just locally.
 
 ---
 
-###  Web Interface
+###  Browser-Based Prediction UI (Servlet Layer)
 
 ![LR Web Component](images/lr-web-component.PNG)
 
-**Explanation:**  
-The servlet form (`index-lr.html`) invokes the `LRStateless` EJB through JNDI lookup.  
-Users input feature values and receive real-time predictions in the browser.  
-Confirms proper Servlet → EJB → Model → Response chain.
+**Explanation:** 
 
+The web interface provides a simple prediction form:
+
+  - Users enter the model name (e.g., weka_lr)
+
+  - Provide comma-separated feature values
+
+  - The servlet performs a JNDI lookup for the EJB
+
+  - The EJB returns the computed prediction
+
+  - The result is displayed instantly in the browser
+
+This demonstrates the full flow:
+Servlet → EJB → Weka Model → Response, showing end-to-end integration for real-time predictions.
 ---
 
-## ☁️ SOAP & REST Web Services
+## ☁️ Web Service Integration Layer
 
-###  SOAP Service (WSDL)
+###  SOAP Web Service (WSDL + Operations)
 
 ![SOAP WS](images/soap-ws.PNG)
 ![SOAP Client](images/soap-ws-client.PNG)
 
 **Explanation:**  
-The `StatsWSImpl` class exposes SOAP endpoints (`getCount`, `getMean`, `getSTD`, etc.).  
-The generated WSDL defines all operations and bindings.  
-`StatsWSClient` successfully consumes the service, displaying correct statistical results (Count = 1, Mean = 10).  
+
+The platform exposes statistical analytics through a fully compliant SOAP API:
+
+  - Implemented via StatsWSImpl
+  
+  - Auto-generates a WSDL describing operations:
+  
+      - getCount
+      
+      - getMin
+      
+      - getMax
+      
+      - getMean
+      
+      - getSTD
+  
+  - A Java SOAP client invokes these operations
+  
+  - Browser output confirms successful responses:
+  
+      - Count: 1
+      
+      - Mean: 10
+      
+      - STD: 0
+
+This demonstrates compatibility with traditional enterprise systems that still rely on SOAP/XML integrations.
 
 ---
 
-###  RESTful Service (JAX-RS)
+###  RESTful Analytics API (JAX-RS)
 
 ![RESTful Service](images/restful-web-service.PNG)
 
 **Explanation:**  
+
+A parallel REST interface exposes the same statistical capabilities:
+
 `StatsRS` exposes `/rest/max`, `/rest/min`, `/rest/mean`, and `/rest/std` endpoints that return JSON responses such as:  
+
 ```json
 {"max":"10.0"}
 {"mean":"10.0"}
 ```
 
-These endpoints provide quick, stateless access to statistics computed by StatsStatelessLocal EJBs.
+This provides lightweight, stateless access for modern systems, frontend apps, CI pipelines, and mobile clients.
 
 ### 🔬 SOAP–REST–ML Convergence
 
