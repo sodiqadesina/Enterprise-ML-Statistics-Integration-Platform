@@ -403,13 +403,13 @@ Or use WildFly Elytron credential store for production.
 
 ### 🚀 Future Enhancements
 
-Add REST endpoints for uploading and testing multiple ML models.
+- Add REST endpoints for uploading and testing multiple ML models.
 
-Implement role-based access control via Elytron.
+- Implement role-based access control via Elytron.
 
-Introduce batch prediction and model versioning.
+- Introduce batch prediction and model versioning.
 
-Containerize with Docker Compose (WildFly + MySQL + Weka).
+- Containerize with Docker Compose (WildFly + MySQL + Weka).
 
 ### 📚 Summary
 
